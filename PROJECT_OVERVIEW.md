@@ -61,9 +61,4 @@ Local dev orchestration (`docker-compose.yml` spanning both repos) not yet decid
 - Always `git pull origin main` before starting new work
 - A-grade (no quota) requires: K8s + full CI/CD + automated unit+integration tests + all members committing
 
-## Open items / TODO
 
-- `tcg_project_guide.md` and `user_stories.md` still need rewriting to match Hub/Escrow scope
-- `docker-compose.yml` placement undecided now that frontend/backend are separate repos
-- `k8s/` manifest location undecided (own repo vs folder in one of the two)
-- No instructor example was actually provided for the polyrepo split — reconcile if one surfaces
