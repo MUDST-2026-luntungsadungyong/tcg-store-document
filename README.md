@@ -1,6 +1,11 @@
 # Document
 Repository for storing related documents and links
 
+## Team and AI project context
+
+- [Current project status](./PROJECT_CURRENT_STATUS.md) — read before planning, implementing, or reporting delivery status.
+- [AI working rules](./AI_WORKING_RULES.md) — evidence and handoff rules for AI-assisted work.
+
 ---
 
 ## User Story and Business Flow
