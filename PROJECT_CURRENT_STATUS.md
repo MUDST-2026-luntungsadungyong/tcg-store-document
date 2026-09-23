@@ -48,6 +48,7 @@ Never infer one row from another. For example, merged code does not prove the st
 | Frontend seller inventory, marketplace, auth, profile, cart/checkout | SCRUM-13 to SCRUM-17 |
 | Buyer history, seller orders, personal collection frontend | SCRUM-25, SCRUM-27, SCRUM-29 |
 | Initial backend structure and shipping-address product decision | SCRUM-35, SCRUM-39 |
+| Backend Dockerfile, Docker build pipeline, full-stack Compose (Rev 5) | SCRUM-21, SCRUM-23, SCRUM-24 |
 
 ### In review
 
@@ -55,14 +56,13 @@ Never infer one row from another. For example, merged code does not prove the st
 |---|---|
 | Profile/contact, seller verification, authentication | SCRUM-6, SCRUM-8, SCRUM-9 |
 | Seller inventory, browse products, cart, checkout CI | SCRUM-7, SCRUM-10, SCRUM-11, SCRUM-20 |
-| Seller orders/profit, collection, buyer order history | SCRUM-24, SCRUM-28, SCRUM-38 |
+| Seller orders/profit, collection, buyer order history | SCRUM-28, SCRUM-38 |
 
 ### Delivery work still open or planned
 
 | Scope | Jira |
 |---|---|
 | Frontend environment configuration | SCRUM-18 |
-| Backend Dockerfile, Docker build pipeline, full-stack Compose | SCRUM-21, SCRUM-23, SCRUM-24 |
 | Error/retry UX, responsive/accessibility, frontend test setup | SCRUM-30, SCRUM-31, SCRUM-32 |
 | Dependency audit and Playwright E2E | SCRUM-33, SCRUM-34 |
 | Final validation | SCRUM-36 |
@@ -115,3 +115,4 @@ Update this file after any of these events: merge, Jira transition, new blocker,
 | Date (ICT) | Editor | Change | Evidence |
 |---|---|---|---|
 | 2026-09-13 | Codex audit | Created the shared status baseline. | Jira project snapshot, repository fetch/state, Compose logs, API/browser probes. |
+| 2026-09-24 | DevOps Agent | Implemented CI/CD Quality Gates across backend & frontend, verified full-stack Docker Compose & Rev 5 DB schema, transitioned SCRUM-21, SCRUM-23, SCRUM-24 to Done. Added `ci_cd_pipelines_overview.md`. | Backend PR #22 (6/6 checks pass), Frontend PR #92 (5/5 checks pass), Jira API transitions. |
