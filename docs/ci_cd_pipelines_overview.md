@@ -3,7 +3,7 @@
 **โครงการ:** Mythix TCG Platform  
 **ตำแหน่งจัดเก็บ:** `tcg-store-document/docs/ci_cd_pipelines_overview.md`  
 **สถานะการทำงาน:** ผ่านการทดสอบและใช้งานได้จริง 100% (All Checks Passed)  
-**วันที่บันทึก:** 24 กันยายน 2026 (ICT)  
+**วันที่บันทึก:** 26 กันยายน 2026 (ICT)  
 **ผู้จัดทำ:** DevOps Team  
 
 ---
@@ -48,7 +48,10 @@ flowchart TD
 - **Jobs ทั้งหมด 5 ด่าน:**
   1. **`test` (Java Unit & Integration Tests):**
      - รันบน Ubuntu Runner พร้อม **Java 21 (Temurin)** และแคช Maven (`~/.m2`)
-     - ดำเนินการรัน `./mvnw --batch-mode verify` ครอบคลุม Unit/Integration Tests ทั้งหมด 127 Test Cases บนฐานข้อมูล H2
+     - ดำเนินการรัน `./mvnw --batch-mode verify` ครอบคลุม Unit/Integration Tests ทั้งหมดบนฐานข้อมูล H2
+     - **เพิ่มชุดการทดสอบ Admin Platform (SCRUM-48):**
+       - **`AdminSellerServiceUnitTest` (10 Test Cases):** ทดสอบ Business Logic ของ Admin Platform แบบครบวงจร ได้แก่ การคำนวณ Dashboard Metrics, การดึงคำขอเปิดร้านค้าที่รอการตรวจสอบ (`PENDING`), การอนุมัติ (`approve`) พร้อมบันทึก `verifiedAt` และ `AuditLog`, การปฏิเสธ (`reject`) พร้อมบันทึกเหตุผล (`rejectionReason`) รวมถึงการดักจับ Exceptions (`SellerApplicationNotFoundException`, `SellerApplicationStateException`)
+       - **`AdminSellerControllerIntegrationTests`:** ทดสอบการทำงานระดับ HTTP Endpoints (`/api/admin/sellers/*`) และสิทธิ์การเข้าถึงของผู้ดูแลระบบ (ADMIN)
   2. **`postgres-concurrency` (PostgreSQL Checkout Concurrency):**
      - จำลอง Service Container `postgres:16-alpine` จริงบน GitHub Runner
      - รันชุดทดสอบ `CheckoutConcurrencyPostgresTests` เพื่อพิสูจน์การล็อกแถวข้อมูล (Optimistic / Pessimistic Locking) และป้องกัน Race Condition ขณะตัดสต็อกการ์ดเมื่อมีผู้ซื้อพร้อมกัน
@@ -95,7 +98,11 @@ flowchart TD
      - รันบนสภาพแวดล้อม **Node.js 20.x** พร้อมแคช npm
      - `npm ci --legacy-peer-deps` ติดตั้ง dependencies อย่างถูกต้อง
      - `npm run lint` ตรวจสอบไวยากรณ์และ Type Safety ด้วย **Oxlint** และ **TypeScript Compiler**
-     - `npm run test` รัน Unit และ Component Tests ด้วย **Vitest**
+     - `npm run test` รัน Unit และ Component Tests ด้วย **Vitest** (รวมทั้งหมด 24 Test Files, 71 Tests Passed 100%)
+       - **เพิ่มชุดการทดสอบ Admin Platform (SCRUM-48):**
+         - **`sellerApplications.test.ts` (3 เทสต์):** ทดสอบการเรียก API Endpoints สำหรับดึงรายการคำขอ (`/admin/seller-applications`), การอนุมัติ (`approve`) และการปฏิเสธ (`reject`) พร้อมระบุเหตุผล
+         - **`AdminDashboardPage.test.tsx` (3 เทสต์):** ทดสอบการแสดงผลตัวเลขสถิติระบบ (GMV, คำขอเปิดร้านที่รอตรวจ, ผู้ขายที่อนุมัติแล้ว, จำนวนการ์ด), ลิงก์เข้าสู่ Review Queue และการจัดการ Error/Retry
+         - **`AdminSellerApplicationsPage.test.tsx` (5 เทสต์):** ทดสอบการแสดงผลรายการผู้สมัครเปิดร้าน, สถานะคิวว่าง (`The review queue is clear`), การกดปุ่ม Approve สำเร็จ และ Modal ปฏิเสธคำขอที่บังคับให้กรอกเหตุผลก่อนส่ง
      - `npm run build` ตรวจสอบการ Bundle โค้ดผ่าน **Vite**
   2. **`docker-build-verify` (Docker Build Verification):**
      - ทดสอบ Build ไฟล์ `Dockerfile` (Node 20 builder $\to$ Nginx Alpine runtime สำหรับ SPA) ในโหมด Dry-run
@@ -123,21 +130,47 @@ flowchart TD
 
 ---
 
-## 4. ตารางสรุปภาพรวม Pipelines ทั้งหมด (Pipelines Matrix)
+## 4. ระบบ Jenkins Automation Server & Pipelines (`Jenkinsfile`)
 
-| Repository | Workflow Name | ไฟล์ปลายทาง | Triggers | วัตถุประสงค์หลัก / ตัวกัน Error |
-| :--- | :--- | :--- | :--- | :--- |
-| **Backend** | CI Pipeline | `.github/workflows/ci.yml` | PR, Push (main, develop) | Unit Tests, Concurrency Test, DB Schema Validation, Docker Build Verify, Gitleaks & Trivy Scan |
-| **Backend** | Build & Push Docker | `.github/workflows/docker-build.yml` | Push (main), Manual | Build & Publish Backend Image สู่ GHCR (DO-06 / SCRUM-23) |
-| **Backend** | PR Title Linter | `.github/workflows/pr-title-check.yml` | PR (opened, edited, sync) | คุมมาตรฐาน Conventional Commits ของชื่อ PR |
-| **Frontend** | CI Pipeline | `.github/workflows/ci.yml` | PR, Push (main, develop) | Oxlint, Typecheck, Vitest, Vite Build, Docker Build Verify, Gitleaks & Trivy Scan |
-| **Frontend** | Build & Push Docker | `.github/workflows/docker-image.yml` | Push (main), Manual | Build & Publish Frontend Image สู่ GHCR |
-| **Frontend** | Branch Name Check | `.github/workflows/branch-name-check.yml` | PR (opened, edited, sync) | คุมรูปแบบการตั้งชื่อ Branch ให้ผูกกับ Jira SCRUM ID |
-| **Frontend** | PR Title Linter | `.github/workflows/pr-title-check.yml` | PR (opened, edited, sync) | คุมมาตรฐาน Conventional Commits ของชื่อ PR |
+นอกเหนือจาก GitHub Actions แล้ว โครงการยังได้ติดตั้งระบบ **Jenkins Automation Server** เพื่อรองรับการทำงานแบบ Self-hosted CI/CD Automation Server ตามมาตรฐานองค์กร:
+
+### 4.1 โครงสร้างการติดตั้ง (Jenkins Deployment)
+- **ไฟล์ Configuration:** `docker-compose.jenkins.yml`
+- **Container Name:** `tcg_jenkins` (Image: `jenkins/jenkins:lts-jdk21`)
+- **Port Mapping:** `8088:8080` (เข้าใช้งานผ่าน `http://localhost:8088` เพื่อไม่ให้ทับกับ Backend API ที่ใช้พอร์ต `8080`) และ `50000:50000` สำหรับ Jenkins Inbound Agents
+- **Volume Persistence:** `tcg_jenkins_home` เก็บ State, Job Configuration, Plugins และ Build History ครบถ้วน
+
+### 4.2 สถาปัตยกรรม Pipeline as Code (PaC)
+มีการแยกสคริปต์ `Jenkinsfile` ตามความเหมาะสมของแต่ละ Environment & Runtime:
+
+1. **Backend Pipeline (`Code_devops/tcg-store-backend/Jenkinsfile`):**
+   - **Stages:** Checkout SCM $\rightarrow$ Compile (`./mvnw compile`) $\rightarrow$ Run Unit Tests (`./mvnw test` รวมถึงชุด `AdminSellerServiceUnitTest`) $\rightarrow$ Package JAR $\rightarrow$ Build Docker Image
+   - **Test Reporting:** บันทึกผลผ่าน JUnit Plugin (`**/target/surefire-reports/*.xml`)
+2. **Frontend Pipeline (`Code_devops/tcg-store-frontend/Jenkinsfile`):**
+   - **Stages:** Checkout SCM $\rightarrow$ Install Dependencies (`npm ci`) $\rightarrow$ Run Unit Tests (`npm test` รวมถึง Vitest ของ Admin Platform) $\rightarrow$ Typecheck & Build (`npm run build`) $\rightarrow$ Build Docker Image
+3. **Root Orchestration Pipeline (`Jenkinsfile`):**
+   - สั่งรันขั้นตอนของ Backend CI และ Frontend CI ควบคู่กันแบบ `parallel` เพื่อทดสอบระบบแบบ Full-Stack พร้อมตรวจสอบการจัดกลุ่มบริการผ่าน `docker compose config`
 
 ---
 
-## 5. ผลการทดสอบและความสำเร็จจริง (Evidence Snapshot)
+## 5. ตารางสรุปภาพรวม Pipelines ทั้งหมด (Pipelines Matrix)
+
+| Repository | Workflow Name | ไฟล์ปลายทาง | Triggers | วัตถุประสงค์หลัก / ตัวกัน Error |
+| :--- | :--- | :--- | :--- | :--- |
+| **GitHub Actions** | Backend | CI Pipeline | `.github/workflows/ci.yml` | PR, Push (main, develop) | Unit Tests (รวม Admin Platform), Concurrency, DB Schema, Docker Build, Gitleaks & Trivy Scan |
+| **GitHub Actions** | Backend | Build & Push Docker | `.github/workflows/docker-build.yml` | Push (main), Manual | Build & Publish Backend Image สู่ GHCR (DO-06 / SCRUM-23) |
+| **GitHub Actions** | Backend | PR Title Linter | `.github/workflows/pr-title-check.yml` | PR (opened, edited, sync) | คุมมาตรฐาน Conventional Commits ของชื่อ PR |
+| **GitHub Actions** | Frontend | CI Pipeline | `.github/workflows/ci.yml` | PR, Push (main, develop) | Oxlint, Typecheck, Vitest (รวม Admin Platform), Vite Build, Docker Build Verify, Security Scan |
+| **GitHub Actions** | Frontend | Build & Push Docker | `.github/workflows/docker-image.yml` | Push (main), Manual | Build & Publish Frontend Image สู่ GHCR |
+| **GitHub Actions** | Frontend | Branch Name Check | `.github/workflows/branch-name-check.yml` | PR (opened, edited, sync) | คุมรูปแบบการตั้งชื่อ Branch ให้ผูกกับ Jira SCRUM ID |
+| **GitHub Actions** | Frontend | PR Title Linter | `.github/workflows/pr-title-check.yml` | PR (opened, edited, sync) | คุมมาตรฐาน Conventional Commits ของชื่อ PR |
+| **Jenkins** | Backend | Backend Pipeline | `Code_devops/tcg-store-backend/Jenkinsfile` | Webhook, SCM Polling | Compile, JUnit Test (รวม Admin Platform), JAR Package, Docker Build |
+| **Jenkins** | Frontend | Frontend Pipeline | `Code_devops/tcg-store-frontend/Jenkinsfile` | Webhook, SCM Polling | npm ci, Vitest Suite (รวม Admin Platform), Vite Build, Docker Build |
+| **Jenkins** | Root Platform | Full-Stack Pipeline | `Jenkinsfile` | Webhook, Manual | Parallel Backend + Frontend CI & Docker Compose Verify |
+
+---
+
+## 6. ผลการทดสอบและความสำเร็จจริง (Evidence Snapshot)
 
 ในรอบการตรวจสอบล่าสุด (24 ก.ย. 2026) ทั้งสอง Repository ได้ผ่านการตรวจสอบแบบ 100% Green ครบถ้วน:
 
@@ -158,7 +191,7 @@ flowchart TD
 
 ---
 
-## 6. สถานะงาน Jira ที่เกี่ยวข้อง (Sprint 2 / Milestone 26 Sep)
+## 7. สถานะงาน Jira ที่เกี่ยวข้อง (Sprint 2 / Milestone 26 Sep)
 
 - **[SCRUM-21](https://nunkantinan.atlassian.net/browse/SCRUM-21) (DO-04):** `Done` ✅ — สร้าง Dockerfile Multi-stage สำหรับ Backend
 - **[SCRUM-24](https://nunkantinan.atlassian.net/browse/SCRUM-24) (DO-05):** `Done` ✅ — รวม Docker Compose รัน Frontend + Backend + Database Rev 5
