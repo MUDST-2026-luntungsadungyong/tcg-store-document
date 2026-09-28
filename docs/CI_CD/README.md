@@ -51,6 +51,9 @@ docs/CI_CD/
 ├── 🐳 DockerBuild/
 │   └── docker_build_and_containerization_guide.md # คู่มือ Multi-stage Dockerfile & Docker Compose Full-Stack
 │
+├── 🌲 E2E/
+│   └── cypress_e2e_testing_guide.md            # คู่มือการทดสอบ End-to-End ด้วย Cypress v16.1 (Interactive & Headless)
+│
 ├── ci_cd_pipelines_overview.md                 # ภาพรวมสถาปัตยกรรม CI/CD ทั้งระบบ (GitHub Actions + Jenkins)
 ├── jenkins_cicd_comprehensive_guide.md         # คู่มือ Jenkins Orchestration & Declarative Pipelines
 └── ci_cd_quality_gates_report.md               # รายงานการตรวจรับงาน Quality Gates
@@ -69,6 +72,9 @@ docs/CI_CD/
 
 ### 3. 🐳 `/DockerBuild`
 * [Docker Build & Containerization Guide](./DockerBuild/docker_build_and_containerization_guide.md): อธิบายสถาปัตยกรรม Multi-Stage Build ของ Frontend (Nginx Alpine) และ Backend (Eclipse Temurin JRE 21 Non-root) พร้อมการตรวจสอบผ่าน `docker compose config`
+
+### 4. 🌲 `/E2E`
+* [Cypress E2E Testing Guide](./E2E/cypress_e2e_testing_guide.md): คู่มือการทดสอบจำลองผู้ใช้จริงด้วย Cypress ครอบคลุม 3 Core User Journeys พร้อมคำสั่งเปิด GUI และ Headless Mode
 
 ---
 

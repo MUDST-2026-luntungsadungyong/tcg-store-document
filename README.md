@@ -24,6 +24,8 @@ https://miro.com/app/board/uXjVHyqYJNg=/?share_link_id=157477950006
   - [Security & Dependency Audit Guide](./docs/CI_CD/Security%20Audit/security_and_dependency_audit_guide.md) — Vulnerability Scanning, Dependabot & Quality Gates.
 - **🐳 Docker & Containerization:**
   - [Docker Build & Containerization Guide](./docs/CI_CD/DockerBuild/docker_build_and_containerization_guide.md) — Multi-stage Dockerfile & Compose Verification.
+- **🌲 End-to-End (E2E) Testing:**
+  - [Cypress E2E Testing Guide](./docs/CI_CD/E2E/cypress_e2e_testing_guide.md) — Cypress v16.1 (Interactive & Headless Journeys).
 - **🌐 Pipeline Architecture & Orchestration:**
   - [CI/CD Pipelines Overview](./docs/CI_CD/ci_cd_pipelines_overview.md) — GitHub Actions & Jenkins Workflows.
   - [Jenkins CI/CD Comprehensive Guide](./docs/CI_CD/jenkins_cicd_comprehensive_guide.md) — Orchestration & Declarative Pipelines.
