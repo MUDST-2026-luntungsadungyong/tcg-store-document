@@ -100,6 +100,12 @@ export default defineConfig({
 * ใช้ Custom Command `cy.loginByMock('CUSTOMER')` จำลอง Session ผู้ซื้อ
 * เข้าหน้า `/cart` เพื่อตรวจสอบโครงสร้างตารางสินค้าและการคำนวณยอด
 
+### 🔹 Journey 4: สั่งซื้อสินค้า ➔ ผู้ขายจัดส่งสำเร็จ (API Fast-Forward) ➔ ทำความสะอาดฐานข้อมูล (`04_order_fastforward_lifecycle.cy.ts`)
+* **Buyer UI Phase:** ผู้ซื้อเข้าสู่ระบบ (`buyer@mythix.com`) ➔ ตรวจสอบตะกร้า ➔ กด `Review reservation` ➔ กด `Confirm reservation` ➔ ระบบสร้างคำสั่งซื้อสำเร็จและนำทางไปหน้า `/checkout/confirmation?orderIds=...`
+* **API Fast-Forward (Seller Phase):** ระบบดักจับ `orderId` แล้วใช้ `cy.sellerFastForwardOrder(orderId, 'FULFILLED')` ยิง API ไปยัง `PATCH /api/seller/orders/{orderId}/status` ด้วย JWT ของผู้ขาย (`seller@mythix.com`) โดย **ไม่ต้องสลับ Account บนหน้า UI** ทำให้ประหยัดเวลาและรวดเร็ว
+* **Buyer Verification:** ผู้ซื้อคลิก `View my orders` เข้าสู่ `/orders` ➔ ตรวจสอบว่าคำสั่งซื้อที่เพิ่งสั่งถูกเปลี่ยนสถานะเป็น **"Sent"** (Badge สีเขียวพร้อมไอคอน Truck) อย่างถูกต้อง
+* **Local Database Teardown (`afterEach` hook):** Cypress เรียก Custom Command `cy.cleanTestOrder(orderId)` ซึ่งทริกเกอร์ Cypress Node Task `cleanupLocalDbOrder` สั่งลบข้อมูล Order และ Order Items ที่สร้างขึ้นออกจาก Local PostgreSQL (`tcg_postgres`) คืนสถานะฐานข้อมูลให้สะอาดบริสุทธิ์ทุกครั้งหลังรันเทสเสร็จสิ้น
+
 ---
 
 ## 💻 5. คู่มือคำสั่งการรันเทส (How to Run Tests)
@@ -133,8 +139,11 @@ npm run test:e2e:headless
 | ข้อกำหนดตามตั๋ว SCRUM-34 | ผลการดำเนินงาน | สถานะ |
 | :--- | :--- | :---: |
 | **ติดตั้ง Cypress Framework** | ติดตั้ง `cypress@16.1.0` พร้อมดาวน์โหลดเบราว์เซอร์ Electron/Node เรียบร้อย | ✅ **สำเร็จ** |
-| **สร้างไฟล์คอนฟิกูเรชัน** | มีไฟล์ `cypress.config.ts` รองรับ Base URL `localhost:5173` และ Viewport 720p | ✅ **สำเร็จ** |
-| **สร้าง Custom Commands & Support** | มีไฟล์ `support/e2e.ts` และ `support/commands.ts` (`cy.loginByMock`) | ✅ **สำเร็จ** |
-| **เขียน Core Test Scenarios** | มีไฟล์เทส 3 ชุด ครอบคลุม Navigation, Auth/Security, และ Cart Flow | ✅ **สำเร็จ** |
-| **เพิ่มคำสั่งใน package.json** | มีคำสั่ง `test:e2e`, `test:e2e:open`, และ `test:e2e:headless` | ✅ **สำเร็จ** |
+| **สร้างไฟล์คอนฟิกูเรชัน** | มีไฟล์ `cypress.config.ts` รองรับ Base URL `localhost:5173`, Viewport 720p และ Task Teardown DB | ✅ **สำเร็จ** |
+| **สร้าง Custom Commands & Support** | มีไฟล์ `support/e2e.ts` และ `support/commands.ts` (`cy.loginByMock`, `cy.sellerFastForwardOrder`, `cy.cleanTestOrder`) | ✅ **สำเร็จ** |
+| **เขียน Core Test Scenarios** | มีไฟล์เทส 4 ชุด ครอบคลุม Navigation, Auth/Security, Cart Flow, และ Order Fast-Forward Lifecycle | ✅ **สำเร็จ** |
+| **เทคนิค Fast-Forward ผ่าน API** | ยิง PATCH `/api/seller/orders/{id}/status` โดยตรง ไม่ต้องสลับ Account ใน UI | ✅ **สำเร็จ** |
+| **การทำความสะอาดข้อมูล (Teardown)** | มี `cleanupLocalDbOrder` task ล้าง Order ขยะออกจาก Local Postgres | ✅ **สำเร็จ** |
+| **การแยก Local vs Cloud DB** | ใช้ Local Postgres (`localhost:5432`) สำหรับเทส ไม่ส่งผลกระทบต่อ Cloud Neon | ✅ **สำเร็จ** |
 | **ความเข้ากันได้กับ Unit Tests** | ทดสอบรัน `npm run build` และ Vitest (73 เคส) ผ่าน 100% ไม่ชนกัน | ✅ **สำเร็จ** |
+
