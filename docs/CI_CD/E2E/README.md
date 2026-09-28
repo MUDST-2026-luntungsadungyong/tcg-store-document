@@ -50,6 +50,11 @@ docs/CI_CD/E2E/
 | Custom Command | บทบาทการทำงาน | Journeys ที่อ้างอิงใช้งาน |
 | :--- | :--- | :--- |
 | **`cy.loginByMock(role)`** | สร้าง Session ล็อกอินจำลองผ่าน Local Storage | **Journey 3** (Cart), **Journey 4** (Order Flow) |
+| **`cy.loginByUI(email, pwd)`** | กรอกฟอร์มเข้าสู่ระบบจริงบนหน้าเว็บและกด Submit | **Journey 2** (Flow 2.1 Login) |
+| **`cy.registerNewUser(name, email, pwd)`** | กรอกฟอร์มสมัครสมาชิกใหม่ครบ 4 ช่องที่ `/register` | **Journey 2** (Flow 2.2 Sign-Up) |
+| **`cy.requestPasswordReset(email)`** | กรอกอีเมลที่หน้า `/forgot-password` ขอรีเซ็ตรหัส | **Journey 2** (Flow 2.3 Reset Password) |
+| **`cy.updateProfileName(name)`** | เข้าหน้า `/profile/edit` เปลี่ยนชื่อและบันทึก | **Journey 2** (Flow 2.4 Profile) |
+| **`cy.updateProfileContact({...})`** | เข้าหน้า `/profile/edit/contact` อัปเดตช่องทางติดต่อ | **Journey 2** (Flow 2.4 Contact) |
 | **`cy.sellerFastForwardOrder(id, status)`** | **API Fast-Forward:** ยิง PATCH อัปเดตสถานะส่งของโดยไม่สลับ UI | **Journey 4** (Order Flow) |
 | **`cy.cleanTestOrder(id)`** | **Data Teardown:** ลบ Order ออกจาก Local PostgreSQL หลังเทสเสร็จ | **Journey 4** (Order Flow) |
 | **`cleanupLocalDbOrder` (Node Task)** | ทาสก์คำสั่ง SQL Delete ใน Docker Container `tcg_postgres` | **Journey 4** (เรียกผ่าน `cy.cleanTestOrder`) |
@@ -64,10 +69,12 @@ docs/CI_CD/E2E/
 
 | คำสั่ง | รูปแบบการทดสอบ (Tier) | สิ่งที่ถูกรัน | ระยะเวลาโดยประมาณ |
 | :--- | :--- | :--- | :--- |
+| `npm run test:e2e:auth` | **Auth & Account Full Suite** | รันครบทั้ง 4 Flows ใน `cypress/e2e/auth/` (Login, Sign-Up, Reset Password, Profile) | ~30 - 45 วินาที |
+| `npm run test:e2e:auth:open` | **Auth Interactive GUI** | เปิดหน้าต่าง Cypress เฉพาะโฟลเดอร์ Auth & Account | ตามการคลิก |
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
-| `npm run test:e2e:open` | **Interactive GUI** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
+| `npm run test:e2e:open` | **Interactive GUI (All)** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
 
 ---
 
