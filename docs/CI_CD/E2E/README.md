@@ -58,23 +58,26 @@ docs/CI_CD/E2E/
 
 ## 💻 วิธีการสั่งรันการทดสอบ (Execution Commands)
 
-### 🎯 1. เปิดดูแบบ Interactive GUI (เหมาะสำหรับ Demo):
-```bash
-cd Code_devops/tcg-store-frontend
-npm run test:e2e:open
-```
-> สามารถคลิกเลือกเฉพาะ Journey ที่ต้องการทดสอบได้จากหน้าต่าง Cypress Test Runner
+ระบบรองรับการแยกการรันการทดสอบออกเป็นหลายระดับความลึก (Test Tiers) ตามความต้องการ:
 
-### 🤖 2. รันแบบ Headless อัตโนมัติ (สำหรับ CI/CD):
-```bash
-cd Code_devops/tcg-store-frontend
-npm run test:e2e
-```
+### 📦 ตารางคำสั่งลัดใน `package.json`:
 
-### 🔍 3. สั่งรันเฉพาะ Journey ใด Journey หนึ่งผ่าน Command Line:
+| คำสั่ง | รูปแบบการทดสอบ (Tier) | สิ่งที่ถูกรัน | ระยะเวลาโดยประมาณ |
+| :--- | :--- | :--- | :--- |
+| `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
+| `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
+| `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
+| `npm run test:e2e:open` | **Interactive GUI** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
+
+---
+
+### 🔍 ตัวอย่างการสั่งรันเฉพาะไฟล์หรือส่ง Parameter ผ่าน CLI:
 ```bash
-# ตัวอย่าง: รันเฉพาะ Journey 4
+# 1. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
 npx cypress run --spec "cypress/e2e/04_order_fastforward_lifecycle.cy.ts"
+
+# 2. รันเฉพาะ Journey 1 และ 3
+npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
 ```
 
 ---
