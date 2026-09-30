@@ -131,3 +131,9 @@ graph TD
    }
    ```
 3. **อัปเดตลงในตาราง Commands Matrix ในเอกสารนี้เสมอ**
+
+### 🔹 2.4 `cy.loginAsAdmin()`
+* **Journey ที่ใช้:**
+  * Journey 5 (Admin Platform)
+* **เหตุผลทางสถาปัตยกรรม:**
+  * ใช้สำหรับ Login เข้าระบบผ่าน UI ด้วยสิทธิ์ ADMIN เพื่อทดสอบฟีเจอร์ของ Platform Admin (US-11-1, US-11-2, US-11-3)
