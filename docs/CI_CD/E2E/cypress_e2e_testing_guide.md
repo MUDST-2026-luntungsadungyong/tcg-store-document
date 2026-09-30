@@ -110,7 +110,17 @@ export default defineConfig({
 
 ## 💻 5. คู่มือคำสั่งการรันเทส (How to Run Tests)
 
-ก่อนสั่งรัน Cypress ต้องเปิด Vite Development Server รอไว้ก่อน:
+ก่อนสั่งรัน Cypress ต้องทำการตั้งค่า **Environment Variables** และเปิด Vite Development Server รอไว้ก่อน:
+
+**ขั้นตอนที่ 1: ตรวจสอบการตั้งค่าไฟล์ `.env`**
+ในโฟลเดอร์ `Code_devops/tcg-store-frontend` ให้ตรวจสอบหรือสร้างไฟล์ `.env` โดยระบุค่าดังนี้:
+```env
+VITE_ENABLE_MOCK_API=true
+VITE_PORT=3000
+```
+> **สำคัญมาก:** ต้องตั้ง `VITE_ENABLE_MOCK_API=true` เพื่อจำลอง API Response และต้องใช้ `VITE_PORT=3000` เท่านั้น เนื่องจาก Cypress ถูก Config ให้เชื่อมต่อไปที่ `http://localhost:3000` เสมอ
+
+**ขั้นตอนที่ 2: รัน Frontend Server**
 ```bash
 # ในโฟลเดอร์ Code_devops/tcg-store-frontend
 npm run dev
