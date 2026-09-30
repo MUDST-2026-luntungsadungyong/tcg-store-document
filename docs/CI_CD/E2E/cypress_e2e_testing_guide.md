@@ -144,7 +144,17 @@ npm run test:e2e:headless
 
 ---
 
-## 🏆 6. ตารางสรุปการตรวจรับงาน (DoD Verification)
+## 🚀 6. CI/CD Integration (GitHub Actions)
+
+ระบบได้ติดตั้ง **GitHub Actions** เพื่อทำการรัน Cypress E2E Test ให้อัตโนมัติทุกครั้งที่มีการเปิด **Pull Request** หรือ **Push** เข้ามายัง Branch `main` และ `develop` โดยกระบวนการนี้เป็นแบบ **Self-contained (Zero-setup)** ซึ่งหมายความว่า:
+
+1. **ไม่จำเป็นต้องตั้งค่า Port เอง:** ระบบ CI จะฉีด Environment Variables `VITE_PORT=3000` และ `VITE_ENABLE_MOCK_API=true` ให้กับแอปพลิเคชันอัตโนมัติ ทำให้ Vite สตาร์ทที่พอร์ต 3000 ตามที่ Cypress คาดหวัง
+2. **ไม่จำเป็นต้องจำลอง Database (Zero DB Setup):** ด้วย `VITE_ENABLE_MOCK_API=true` ระบบจะใช้ In-memory Mock Database ที่ฝังอยู่ในโค้ด (`src/infrastructure/mock-db`) ทำให้ไม่ต้องติดตั้งฐานข้อมูลใดๆ (เช่น MySQL, Postgres) ข้อมูลจำลองทั้งหมดพร้อมใช้งานทันที
+3. **การทดสอบอัตโนมัติ 100%:** เมื่อมีคนส่ง Pull Request ตัว GitHub Actions Runner (Ubuntu) จะทำการรัน `npm run dev` ไว้เบื้องหลัง รอจนกระทั่งแอปพร้อมใช้งาน แล้วจึงสั่ง `cypress run` เพื่อยืนยันคุณภาพโค้ดก่อนทำการ Merge โดยที่นักพัฒนาไม่ต้องเข้าไปแทรกแซงใดๆ
+
+---
+
+## 🏆 7. ตารางสรุปการตรวจรับงาน (DoD Verification)
 
 | ข้อกำหนดตามตั๋ว SCRUM-34 | ผลการดำเนินงาน | สถานะ |
 | :--- | :--- | :---: |
