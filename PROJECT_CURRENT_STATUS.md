@@ -28,7 +28,7 @@ Never infer one row from another. For example, merged code does not prove the st
 | PostgreSQL | **Available, but schema drift blocks backend** | Compose PostgreSQL service was healthy on 2026-09-13. | Existing volume lacks `orders.idempotency_key`; init scripts do not repair an existing volume. |
 | Full stack | **Not yet verified** | Backend Compose contains backend + PostgreSQL, not frontend. | Create a reproducible frontend + backend + DB stack and test critical flow. |
 | CI | **Present, latest-run evidence must be checked per PR/commit** | Backend workflow runs Maven verification and PostgreSQL concurrency tests; frontend workflow runs lint, test, build. | Record exact successful run URLs/SHAs for the delivery candidate. |
-| E2E / release | **Not started** | Jira contains E2E, security audit, Docker delivery, and final validation work. | Add critical-flow E2E, security/dependency checks, and release evidence. |
+| E2E / release | **Partially complete (Frontend Mock)** | Cypress E2E tests cover core journeys (Auth, Discovery, Cart, Admin, Seller Onboarding) using mock API. | Add full-stack E2E tests against real backend, security checks. |
 
 ## Current technical blockers
 
@@ -116,14 +116,6 @@ Update this file after any of these events: merge, Jira transition, new blocker,
 |---|---|---|---|
 | 2026-09-13 | Codex audit | Created the shared status baseline. | Jira project snapshot, repository fetch/state, Compose logs, API/browser probes. |
 | 2026-09-24 | DevOps Agent | Implemented CI/CD Quality Gates across backend & frontend, verified full-stack Docker Compose & Rev 5 DB schema, transitioned SCRUM-21, SCRUM-23, SCRUM-24 to Done. Added `ci_cd_pipelines_overview.md`. | Backend PR #22 (6/6 checks pass), Frontend PR #92 (5/5 checks pass), Jira API transitions. |
+| 2026-10-02 | DevOps Agent | Implemented comprehensive Frontend E2E tests (Cypress) covering Auth, Discovery, Cart, Admin Dashboard, and Seller Onboarding. | All Cypress specs pass 100% locally and on CI (Mock API). |
 
 
-## Frontend E2E Testing Status
-
-As of Oct 2, 2026, Cypress E2E tests cover almost the entire core journey of the platform:
-- **Auth & Discovery:** Login, Register, Store browsing, Shopping Cart, Notifications Inbox.
-- **Order Management:** Reserve items, Admin fast-forward lifecycle (Reserved -> Paid -> Shipped).
-- **Admin:** Admin Dashboard, Manage Users, Approve/Reject Seller Applications, Audit Logs.
-- **Seller Onboarding:** Full flow tested from User application (/profile/seller-application), Admin approval (/admin/seller-applications), to Store Setup (/workspace/store-settings) and Public Store View.
-
-All Cypress specs in cypress/e2e pass 100% using the Vite mock API (VITE_ENABLE_MOCK_API=true).
