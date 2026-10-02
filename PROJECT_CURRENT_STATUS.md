@@ -116,3 +116,14 @@ Update this file after any of these events: merge, Jira transition, new blocker,
 |---|---|---|---|
 | 2026-09-13 | Codex audit | Created the shared status baseline. | Jira project snapshot, repository fetch/state, Compose logs, API/browser probes. |
 | 2026-09-24 | DevOps Agent | Implemented CI/CD Quality Gates across backend & frontend, verified full-stack Docker Compose & Rev 5 DB schema, transitioned SCRUM-21, SCRUM-23, SCRUM-24 to Done. Added `ci_cd_pipelines_overview.md`. | Backend PR #22 (6/6 checks pass), Frontend PR #92 (5/5 checks pass), Jira API transitions. |
+
+
+## Frontend E2E Testing Status
+
+As of Oct 2, 2026, Cypress E2E tests cover almost the entire core journey of the platform:
+- **Auth & Discovery:** Login, Register, Store browsing, Shopping Cart, Notifications Inbox.
+- **Order Management:** Reserve items, Admin fast-forward lifecycle (Reserved -> Paid -> Shipped).
+- **Admin:** Admin Dashboard, Manage Users, Approve/Reject Seller Applications, Audit Logs.
+- **Seller Onboarding:** Full flow tested from User application (/profile/seller-application), Admin approval (/admin/seller-applications), to Store Setup (/workspace/store-settings) and Public Store View.
+
+All Cypress specs in cypress/e2e pass 100% using the Vite mock API (VITE_ENABLE_MOCK_API=true).
