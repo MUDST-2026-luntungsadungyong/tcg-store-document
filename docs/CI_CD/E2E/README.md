@@ -99,4 +99,5 @@ npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
 3. **Card Condition & Grading:**
    * การเลือกการ์ดตามสภาพ (Mint / Near Mint / Played) และการ์ดแท้ที่ผ่านการเกรด (PSA / BGS)
 
+| `npm run test:e2e:seller-orders` | **Seller Order Management Suite** | รันเฉพาะ E2E ของระบบจัดการคำสั่งซื้อผู้ขาย (US-07-1, US-07-2, US-06-1) | ~15 - 25 วินาที |
 | `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ทั้ง 3 Flow (US-11-1 ถึง US-11-3) | ~15 - 30 วินาที |
