@@ -67,38 +67,38 @@
 ```mermaid
 mindmap
   root((Mythix TCG Platform))
-    Identity & Security
+    Identity and Security
       JWT Authentication
       BCrypt Password Encryption
-      Role-Based Access Control (USER, ADMIN)
+      Role-Based Access Control
       Seller KYC Verification Gate
-      Profile & Contact Channel Management
-    Card Discovery & Catalog
-      Global Master Catalog (2,000+ Cards)
-      Multi-Facet Filtering (Set, Rarity, Price, Condition, Language)
+      Profile and Contact Channel Management
+    Card Discovery and Catalog
+      Global Master Catalog
+      Multi-Facet Filtering
       Multi-Seller Listing Comparison
       Similar Cards Recommendation Engine
-      Homepage Trending & High-Value Showcase
-    Cart & Atomic Order Engine
+      Homepage Trending and High-Value Showcase
+    Cart and Atomic Order Engine
       Shopping Cart with Real-time Stock Clamping
-      Atomic Stock Reservation (Prevent Overselling)
-      Idempotent Checkout (Duplicate-safe)
+      Atomic Stock Reservation
+      Idempotent Checkout
       Order Fulfillment State Machine
       Automated Card Ownership Transfer
-    Seller Operations & Commerce
-      Listings CRUD & Real Photo Upload
-      Inventory Visibility Toggle (SHOW/HIDE)
-      Public Storefront URL (/stores/:sellerId)
-      Cost Snapshot & Net Profit Calculator
+    Seller Operations and Commerce
+      Listings CRUD and Real Photo Upload
+      Inventory Visibility Toggle
+      Public Storefront URL
+      Cost Snapshot and Net Profit Calculator
     Collector Ecosystem
       Personal Digital Binder
       Add to Binder from Catalog or Listing
       Collector Community Leaderboard
       Public Collector Showcase
-    Administration & Governance
+    Administration and Governance
       Executive Analytics Dashboard
-      KYC Review & Decision Workflow
-      User & Role Management
+      KYC Review and Decision Workflow
+      User and Role Management
       System-wide Order Monitor
       Immutable Security Audit Logs
     Notification Center
@@ -387,19 +387,19 @@ flowchart TB
         FileStorage["Local / Static Image Storage\n(/uploads/products/*)"]
     end
 
-    Browser <--> ViteServer
-    ViteServer <--> ReactApp
+    Browser --> ViteServer
+    ViteServer --> ReactApp
     ReactApp --> Router
     Router --> StateStore
     StateStore --> APIClient
     APIClient -.-> MockDB
-    APIClient <-->|REST API (JSON / Bearer JWT)| SecurityFilter
+    APIClient -->|"REST API (JSON / Bearer JWT)"| SecurityFilter
     SecurityFilter --> APIControllers
     APIControllers --> ServiceLayer
     ServiceLayer --> PersistenceLayer
-    PersistenceLayer <-->|JDBC HikariCP Pool| PostgresDB
-    PersistenceLayer -.->|Neon Profile| CloudDB
-    ServiceLayer <-->|Read / Write Card Photos| FileStorage
+    PersistenceLayer -->|"JDBC HikariCP Pool"| PostgresDB
+    PersistenceLayer -.->|"Neon Profile"| CloudDB
+    ServiceLayer -->|"Read / Write Card Photos"| FileStorage
 ```
 
 ---
