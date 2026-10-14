@@ -735,9 +735,19 @@ flowchart LR
 
 ## 7. กระบวนการทำงานที่สำคัญ (Core Business & Transactional Workflows)
 
+ในส่วนนี้สรุปขั้นตอนการทำงานหลักของระบบ 3 กระบวนการสำคัญ โดยสรุปขั้นตอนเป็นข้อๆ ให้อ่านเข้าใจง่าย และสามารถคลิกที่แถบ **Dropdown** เพื่อเปิดดู **Sequence Diagram** เชิงลึกได้:
+
 ### 7.1 โฟลว์การจองสต๊อกสินค้าแบบอะตอมมิก (Atomic Stock Reservation Flow)
 
 เมื่อผู้ซื้อกดสั่งซื้อสินค้า ระบบจะดำเนินธุรกรรมการล็อกจองสต๊อกแบบ Atomic เพื่อป้องกันปัญหาสินค้าถูกขายซ้ำ (Overselling):
+1. **Submit Order:** ผู้ซื้อกดยืนยันสั่งซื้อผ่าน Frontend พร้อมส่ง Header `Idempotency-Key` (UUID) ป้องกันการส่งซ้ำ
+2. **Deduplication Check:** Backend ตรวจสอบว่าเคยมี Order ที่ใช้คีย์นี้ไปแล้วหรือไม่ หากมีจะส่งผลลัพธ์เดิมกลับทันที
+3. **Pessimistic Row Lock:** ดำเนินการ `SELECT ... FOR UPDATE` บนตาราง `local_cards` เพื่อตรวจสอบสต๊อกพร้อมขายจริง (`on_hand - reserved >= requested`)
+4. **Reserve & Create Order:** เพิ่มยอด `reserved`, บันทึกข้อมูลลงตาราง `orders` และ `order_items` (พร้อม Snapshot ราคา/ต้นทุน), เคลียร์สินค้าออกจากตะกร้า
+5. **Notify Seller:** ระบบสร้าง In-App Notification แจ้งเตือนผู้ขายว่ามีสินค้าถูกจอง และส่งมอบช่องทางติดต่อให้ผู้ซื้อ
+
+<details>
+<summary>🔍 <b>คลิกเพื่อดู Sequence Diagram เชิงเทคนิค (Atomic Stock Reservation)</b></summary>
 
 ```mermaid
 sequenceDiagram
@@ -782,11 +792,20 @@ sequenceDiagram
     end
 ```
 
+</details>
+
 ---
 
 ### 7.2 โฟลว์การยืนยันชำระเงินและโอนกรรมสิทธิ์การ์ดอัตโนมัติ (Fulfillment & Card Ownership Transfer)
 
 กระบวนการส่งมอบสินค้าและการโอนกรรมสิทธิ์การ์ดเข้าอัลบั้มคอลเลกชันส่วนตัวของผู้ซื้อ:
+1. **Off-Platform Payment & Contact:** ผู้ซื้อและผู้ขายติดต่อกันผ่าน Line/Phone ตามข้อมูลที่ระบบให้ไว้เพื่อชำระเงินและแจ้งที่อยู่จัดส่ง
+2. **Mark as Fulfilled:** เมื่อผู้ขายตรวจสอบยอดเงินเรียบร้อย จะกดปุ่มยืนยันส่งมอบสินค้า (`PATCH /seller/orders/{orderId}/status`)
+3. **Stock Deduct & Auto Transfer:** ใน Transaction เดียวกัน ระบบจะตัดสต๊อกจริง (`on_hand = on_hand - qty`, `reserved = reserved - qty`) และทำการ Upsert การ์ดเข้าสู่ตาราง `collection_items` ของผู้ซื้อทันที
+4. **Notify Buyer:** ส่ง Notification แจ้งผู้ซื้อว่าออเดอร์เสร็จสิ้น และการ์ดถูกบรรจุเข้าอัลบั้มสะสมเรียบร้อยแล้ว
+
+<details>
+<summary>🔍 <b>คลิกเพื่อดู Sequence Diagram เชิงเทคนิค (Order Fulfillment & Ownership Transfer)</b></summary>
 
 ```mermaid
 sequenceDiagram
@@ -828,9 +847,20 @@ sequenceDiagram
     Buyer->>UI: เปิดหน้า Collection Binder พบการ์ดที่ซื้อปรากฏในอัลบั้มทันที
 ```
 
+</details>
+
 ---
 
 ### 7.3 โฟลว์การขอเปิดร้านค้าและการตรวจสอบสิทธิ์ผู้ขาย (Seller KYC Verification Gate)
+
+กระบวนการตรวจสอบคุณสมบัติผู้ขายเพื่อความปลอดภัยและความน่าเชื่อถือของแพลตฟอร์ม:
+1. **Apply for Seller:** ลูกค้ากรอกแบบฟอร์มยืนยันตัวตน (ชื่อร้าน, เลขบัตรประชาชน, บัญชีธนาคาร) ระบบจะบันทึกและปรับ `seller_status` เป็น `PENDING`
+2. **Admin Review Queue:** ผู้ดูแลระบบเข้าสู่ระบบเพื่อตรวจสอบคำขอในคิว Admin Review Queue
+3. **Approve / Reject Decision:** Admin ตรวจสอบเอกสาร และกด Approve (ปรับสถานะเป็น `APPROVED` พร้อมบันทึก `verified_at` และ Audit Log) หรือ Reject (พร้อมระบุเหตุผล)
+4. **Unlock Seller Features:** ระบบส่ง Notification แจ้งผลให้ผู้ใช้ทราบ และปลดล็อกเมนู Seller Workspace บนหน้าเว็บให้ทันที
+
+<details>
+<summary>🔍 <b>คลิกเพื่อดู Sequence Diagram เชิงเทคนิค (Seller KYC Verification Gate)</b></summary>
 
 ```mermaid
 sequenceDiagram
@@ -868,6 +898,8 @@ sequenceDiagram
     NotiSvc-->>User: ได้รับการแจ้งเตือน "ยินดีด้วย ร้านค้าของคุณได้รับการอนุมัติแล้ว"
     User->>UI: เมนู "Seller Workspace" ปรากฏบนหน้าเว็บ สามารถลงขายการ์ดได้ทันที
 ```
+
+</details>
 
 ---
 
