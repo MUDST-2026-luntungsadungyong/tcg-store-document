@@ -26,8 +26,14 @@ docs/CI_CD/E2E/
 ├── 03_Cart_and_Inventory/                       # 🛒 Journey 3
 │   └── README.md                                # รายละเอียด: ตะกร้าสินค้า, สต็อกการ์ด, คำนวณราคา
 │
-└── 04_Order_Fulfillment_Lifecycle/              # 📦 Journey 4
-    └── README.md                                # รายละเอียด: สั่งซื้อ ➔ ส่งของ (API Fast-Forward) ➔ Teardown
+├── 04_Order_Fulfillment_Lifecycle/              # 📦 Journey 4
+│   └── README.md                                # รายละเอียด: สั่งซื้อ ➔ ส่งของ (API Fast-Forward) ➔ Teardown
+│
+├── 05_Admin_Platform/                           # 🛡️ Journey 5
+│   └── README.md                                # รายละเอียด: ระบบแอดมิน, คิวตรวจร้านค้า, Role Guard
+│
+└── 06_Notification_System/                      # 🔔 Journey 6
+    └── README.md                                # รายละเอียด: กระดิ่งแจ้งเตือน, Unread Badge, Deep-Link, Read/Delete
 ```
 
 ---
@@ -40,6 +46,8 @@ docs/CI_CD/E2E/
 | [**02_Authentication_and_Security**](./02_Authentication_and_Security/README.md) | `02_auth_and_protected_routes.cy.ts` | Guest / Attacker | ตรวจสอบฟอร์ม Login, Empty Validation, และ Route Guard เตะกลับ |
 | [**03_Cart_and_Inventory**](./03_Cart_and_Inventory/README.md) | `03_cart_and_checkout_flow.cy.ts` | Buyer (`buyer@mythix.com`) | ตรวจสอบสถานะตะกร้าว่าง, การแสดงสินค้า, และยอดรวมก่อนจอง |
 | [**04_Order_Fulfillment_Lifecycle**](./04_Order_Fulfillment_Lifecycle/README.md) | `04_order_fastforward_lifecycle.cy.ts` | Buyer + Seller | **API Fast-Forward** ไม่ต้องสลับ Account + **Local DB Teardown** |
+| [**05_Admin_Platform**](./05_Admin_Platform/README.md) | `admin/*.cy.ts` | Platform Admin | ตรวจสอบแดชบอร์ด, คิวอนุมัติร้านค้าผู้ขาย, และ Role Guard เตะกลับ |
+| [**06_Notification_System**](./06_Notification_System/README.md) | `05_notifications_inbox.cy.ts` | All Roles (Buyer, Seller, Admin) | **Bell Badge & Counter**, **Deep-Link Actions**, **Read/Delete Lifecycle** |
 
 ---
 
@@ -74,16 +82,21 @@ docs/CI_CD/E2E/
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
+| `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ครบทุก Flow | ~15 - 30 วินาที |
+| `npm run test:e2e:notifications` | **Notification System Suite** | รันเฉพาะ E2E ของ Notification ทั้ง 14 Scenarios (US-11-1 ถึง US-11-2) | ~20 - 30 วินาที |
 | `npm run test:e2e:open` | **Interactive GUI (All)** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
 
 ---
 
 ### 🔍 ตัวอย่างการสั่งรันเฉพาะไฟล์หรือส่ง Parameter ผ่าน CLI:
 ```bash
-# 1. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
+# 1. รันเฉพาะ Notification System E2E
+npx cypress run --spec "cypress/e2e/05_notifications_inbox.cy.ts"
+
+# 2. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
 npx cypress run --spec "cypress/e2e/04_order_fastforward_lifecycle.cy.ts"
 
-# 2. รันเฉพาะ Journey 1 และ 3
+# 3. รันเฉพาะ Journey 1 และ 3
 npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
 ```
 
@@ -98,5 +111,3 @@ npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
    * ตรวจสอบการหักค่าธรรมเนียมแพลตฟอร์ม 10% เมื่อผู้ขายแต่ละระดับ Tier ทำการขายสำเร็จ
 3. **Card Condition & Grading:**
    * การเลือกการ์ดตามสภาพ (Mint / Near Mint / Played) และการ์ดแท้ที่ผ่านการเกรด (PSA / BGS)
-
-| `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ทั้ง 3 Flow (US-11-1 ถึง US-11-3) | ~15 - 30 วินาที |
