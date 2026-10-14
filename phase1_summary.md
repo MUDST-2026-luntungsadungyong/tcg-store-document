@@ -23,7 +23,7 @@
    - 7.1 [โฟลว์การจองสต๊อกสินค้าแบบอะตอมมิก (Atomic Stock Reservation Flow)](#71-โฟลว์การจองสต๊อกสินค้าแบบอะตอมมิก-atomic-stock-reservation-flow)
    - 7.2 [โฟลว์การยืนยันชำระเงินและโอนกรรมสิทธิ์การ์ดอัตโนมัติ (Fulfillment & Card Ownership Transfer)](#72-โฟลว์การยืนยันชำระเงินและโอนกรรมสิทธิ์การ์ดอัตโนมัติ-fulfillment--card-ownership-transfer)
    - 7.3 [โฟลว์การขอเปิดร้านค้าและการตรวจสอบสิทธิ์ผู้ขาย (Seller KYC Verification Gate)](#73-โฟลว์การขอเปิดร้านค้าและการตรวจสอบสิทธิ์ผู้ขาย-seller-kyc-verification-gate)
-8. [สรุปสถานะปัจจุบันและแผนงานสำหรับ Phase ต่อไป (Phase 1 Milestones & Phase 2 Roadmap)](#8-สรุปสถานะปัจจุบันและแผนงานสำหรับ-phase-ต่อไป-phase-1-milestones--phase-2-roadmap)
+8. [สรุปสถานะและผลงานที่ส่งมอบใน Phase 1 (Phase 1 Delivered Milestones)](#8-สรุปสถานะและผลงานที่ส่งมอบใน-phase-1-phase-1-delivered-milestones)
 
 ---
 
@@ -903,9 +903,10 @@ sequenceDiagram
 
 ---
 
-## 8. สรุปสถานะปัจจุบันและแผนงานสำหรับ Phase ต่อไป (Phase 1 Milestones & Phase 2 Roadmap)
+## 8. สรุปสถานะและผลงานที่ส่งมอบใน Phase 1 (Phase 1 Delivered Milestones)
 
-### 8.1 สิ่งที่ส่งมอบแล้วใน Phase 1 (Delivered & Verified Milestones)
+โครงการ Mythix TCG Platform ในระยะ Phase 1 ได้ดำเนินการพัฒนาและส่งมอบฟังก์ชันแกนหลักของระบบครบถ้วนทุกมิติ พร้อมผ่านการตรวจสอบคุณภาพ (Quality Gates) เรียบร้อยแล้ว ดังนี้:
+
 1. ✅ **ระบบระบุตัวตนและความปลอดภัย (Authentication & User Profile):**
    - การสมัครสมาชิก, เข้าสู่ระบบด้วย JWT, เข้ารหัสผ่าน BCrypt, ปรับแต่งโปรไฟล์ ช่องทางติดต่อ และรูปภาพประจำตัว
 2. ✅ **แคตตาล็อกและการค้นหาการ์ดสะสม (Master Catalog & Discovery):**
@@ -930,20 +931,6 @@ sequenceDiagram
    - GitHub Actions CI/CD ควบคุมคุณภาพครอบคลุมทั้ง Backend และ Frontend ผ่านการทดสอบ 100%
    - Docker Multi-stage Containerization, Docker Compose และ Kubernetes Manifests รองรับ Neon Cloud Database
    - Cypress E2E Testing Suite ครอบคลุม 7 เส้นทางการใช้งานหลัก
-
----
-
-### 8.2 แผนการพัฒนาต่อยอดสำหรับ Phase ต่อไป (Phase 2 Roadmap & Next Steps)
-สำหรับการพัฒนาในลำดับถัดไป (Phase 2 และการปรับปรุงสู่ Production เต็มรูปแบบ) มีข้อเสนอแนะในการต่อยอดระบบดังนี้:
-
-| ลำดับ | รายการพัฒนาต่อยอด (Phase 2 Scope) | ความสำคัญ | รายละเอียดและประโยชน์ |
-| :---: | :--- | :---: | :--- |
-| **1** | **ระบบชำระเงินอัตโนมัติ (Online Payment Gateway Integration)** | สูง | เชื่อมต่อ Payment Gateway (เช่น PromptPay QR, Stripe หรือ Omise) เพิ่มเติมจากระบบ Peer-to-Peer Reservation เดิม เพื่อรองรับการตัดบัตรเครดิตและการชำระเงินอัตโนมัติ |
-| **2** | **ระบบแจ้งเตือนแบบเรียลไทม์ (WebSockets / Server-Sent Events - SSE)** | ปานกลาง | ปรับปรุงระบบกระดิ่งแจ้งเตือนจากการส่ง Request เป็นการ Push ข้อความแจ้งเตือนผ่าน WebSocket หรือ SSE เพื่อให้แจ้งเตือนเด้งทันทีโดยไม่ต้องรีเฟรชหน้าเว็บ |
-| **3** | **ระบบส่งอีเมลยืนยันตัวตน (Automated Email Dispatcher)** | ปานกลาง | เชื่อมต่อ SMTP / SendGrid เพื่อส่งอีเมลยืนยันการสมัครสมาชิก, ใบเสร็จคำสั่งซื้อ และลิงก์รีเซ็ตรหัสผ่านแบบใช้ครั้งเดียว (One-Time Token Link) |
-| **4** | **ระบบจัดส่งและติดตามพัสดุ (Third-Party Logistics / Tracking Integration)** | ปานกลาง | เพิ่มการเชื่อมต่อ API บริษัทขนส่ง (Thailand Post, Kerry, Flash) เพื่อออกหมายเลข Tracking อัตโนมัติและอัปเดตสถานะการจัดส่ง |
-| **5** | **ระบบแชตสดระหว่างผู้ซื้อและผู้ขาย (In-App Direct Messaging)** | เสริม | เพิ่มห้องแชตและส่งรูปภาพสภาพการ์ดเพิ่มเติมภายในระบบ ลดการพึ่งพาช่องทางแชตภายนอก (Line/Facebook) |
-| **6** | **Cloud Native Kubernetes Production Deployment** | สูง | ติดตั้ง Ingress Controller, Cert-Manager (Let's Encrypt SSL/TLS), HPA (Horizontal Pod Autoscaler) และ Prometheus/Grafana Monitoring บน Kubernetes Cluster จริง |
 
 ---
 *เอกสารนี้จัดทำขึ้นโดยอ้างอิงจากข้อมูลสถาปัตยกรรม ฐานข้อมูล และซอร์สโค้ดจริงทั้งหมดในโครงการ Mythix TCG Platform ประจำ Phase 1*
