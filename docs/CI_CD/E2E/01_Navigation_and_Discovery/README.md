@@ -53,6 +53,11 @@
 ---
 
 ## 🔮 4. แผนการต่อขยายในอนาคต (Future Expansion)
+* [x] **Multi-Seller Listing Comparison & Recommendations (US-02-2 & US-02-3):**
+  * ดูรายละเอียดในคู่มือเฉพาะทาง: [**Card Detail Multi-Seller & Recommendations Guide (`card_detail_multi_seller_and_recommendations_e2e_guide.md`)**](./card_detail_multi_seller_and_recommendations_e2e_guide.md)
+  * Spec File: [`tcg-store-frontend/cypress/e2e/12_card_detail_multi_seller_and_recommendations.cy.ts`](file:///c:/Devops/tcg-store-frontend/cypress/e2e/12_card_detail_multi_seller_and_recommendations.cy.ts)
+  * NPM Script: `npm run test:e2e:card-detail`
 * [ ] การทดสอบ Filter ตามประเภทการ์ด (Pokémon, Magic, Yu-Gi-Oh!)
 * [ ] การทดสอบการเรียงลำดับราคา (Sort: Low to High / High to Low)
 * [ ] การทดสอบเปิดดูโมเดลการ์ดแบบ 3 มิติ (3D Card Viewer Component)
+

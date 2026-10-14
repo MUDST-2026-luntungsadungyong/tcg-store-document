@@ -117,5 +117,7 @@ Update this file after any of these events: merge, Jira transition, new blocker,
 | 2026-09-13 | Codex audit | Created the shared status baseline. | Jira project snapshot, repository fetch/state, Compose logs, API/browser probes. |
 | 2026-09-24 | DevOps Agent | Implemented CI/CD Quality Gates across backend & frontend, verified full-stack Docker Compose & Rev 5 DB schema, transitioned SCRUM-21, SCRUM-23, SCRUM-24 to Done. Added `ci_cd_pipelines_overview.md`. | Backend PR #22 (6/6 checks pass), Frontend PR #92 (5/5 checks pass), Jira API transitions. |
 | 2026-10-02 | DevOps Agent | Implemented comprehensive Frontend E2E tests (Cypress) covering Auth, Discovery, Cart, Admin Dashboard, Seller Onboarding, Public Store Browsing, and Error Handling/Feedback. | All Cypress specs pass 100% locally and on CI (Mock API). |
+| 2026-10-15 | DevOps Agent | Implemented Card Detail Multi-Seller Comparison & Recommendations Cypress E2E suite (US-02-2, US-02-3, SCRUM-37) covering Metadata Presentation, Price-sorted Multi-Seller Offers, Stock dropdown, Cart/Reserve actions, Collect Card panel, and Similar Cards Recommendation engine. | 13/13 Cypress tests passing, all unit tests passing, lint/build passing. |
+
 
 
