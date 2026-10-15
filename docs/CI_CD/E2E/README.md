@@ -38,7 +38,7 @@ docs/CI_CD/E2E/
 | :--- | :--- | :--- | :--- |
 | [**01_Navigation_and_Discovery**](./01_Navigation_and_Discovery/README.md) | `01_navigation_and_discovery.cy.ts` | Guest | ตรวจสอบ Landing Page, เมนูหลัก, และ Search Bar Interaction |
 | [**02_Authentication_and_Security**](./02_Authentication_and_Security/README.md) | `02_auth_and_protected_routes.cy.ts` | Guest / Attacker | ตรวจสอบฟอร์ม Login, Empty Validation, และ Route Guard เตะกลับ |
-| [**03_Cart_and_Inventory**](./03_Cart_and_Inventory/README.md) | `03_cart_and_checkout_flow.cy.ts` | Buyer (`buyer@mythix.com`) | ตรวจสอบสถานะตะกร้าว่าง, การแสดงสินค้า, และยอดรวมก่อนจอง |
+| [**03_Cart_and_Inventory**](./03_Cart_and_Inventory/README.md) | `03_cart_and_checkout_flow.cy.ts`<br>`09_seller_inventory_management.cy.ts` | Buyer / Seller | ตรวจสอบสถานะตะกร้าสินค้า และการจัดการคลังสินค้า/ต้นทุนกำไรของผู้ขาย (US-05, US-06) |
 | [**04_Order_Fulfillment_Lifecycle**](./04_Order_Fulfillment_Lifecycle/README.md) | `04_order_fastforward_lifecycle.cy.ts` | Buyer + Seller | **API Fast-Forward** ไม่ต้องสลับ Account + **Local DB Teardown** |
 
 ---
@@ -74,6 +74,8 @@ docs/CI_CD/E2E/
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
+| `npm run test:e2e:collection` | **Collection & Leaderboard Suite** | รันการทดสอบ US-10 จัดการคอลเลกชันส่วนตัวและทำเนียบผู้สะสม (`10_*.cy.ts`) | ~5 - 10 วินาที |
+| `npm run test:e2e:seller-inventory` | **Seller Inventory Suite** | รันการทดสอบ US-05, US-06 คลังสินค้าและตัวชี้วัดกำไรของผู้ขาย (`09_*.cy.ts`) | ~8 - 12 วินาที |
 | `npm run test:e2e:open` | **Interactive GUI (All)** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
 
 ---

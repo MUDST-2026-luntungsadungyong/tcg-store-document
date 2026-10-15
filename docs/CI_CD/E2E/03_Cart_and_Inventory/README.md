@@ -49,9 +49,13 @@
 | **Session Key** | `tcg_cart_storage` หรือคุยกับ Backend Endpoint `GET /api/cart` |
 | **Custom Command** | `cy.loginByMock('CUSTOMER')` เซ็ต Session ให้ระบบมองเห็นเป็น Buyer อัตโนมัติ |
 
+## 📚 4. เอกสารคู่มือการทดสอบที่เกี่ยวข้อง (Related Guides)
+
+* [📦 คู่มือการทดสอบ Seller Inventory Management & Metrics (US-05 & US-06)](file:///c:/Devops/tcg-store-document/docs/CI_CD/E2E/03_Cart_and_Inventory/seller_inventory_management_e2e_guide.md)
+
 ---
 
-## 🔮 4. แผนการต่อขยายในอนาคต (Future Expansion)
+## 🔮 5. แผนการต่อขยายในอนาคต (Future Expansion)
 * [ ] การทดสอบกดปุ่มบวก (+) / ลบ (-) เพื่อเปลี่ยนจำนวนสินค้า แล้วยอดรวมเปลี่ยนแบบ Real-time
 * [ ] การทดสอบลบสินค้าออกจากตะกร้า (Trash icon)
 * [ ] การทดสอบการแยกกลุ่มสินค้าตามผู้ขาย (Multi-Seller Grouping ในตะกร้าเดียว)
