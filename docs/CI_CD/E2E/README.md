@@ -37,7 +37,7 @@ docs/CI_CD/E2E/
 | โฟลเดอร์เอกสาร | ไฟล์โค้ด Cypress (`.cy.ts`) | บทบาทผู้ใช้ (Actor) | จุดเด่นสำคัญ (Key Highlights) |
 | :--- | :--- | :--- | :--- |
 | [**01_Navigation_and_Discovery**](./01_Navigation_and_Discovery/README.md) | `01_navigation_and_discovery.cy.ts` | Guest | ตรวจสอบ Landing Page, เมนูหลัก, และ Search Bar Interaction |
-| [**02_Authentication_and_Security**](./02_Authentication_and_Security/README.md) | `02_auth_and_protected_routes.cy.ts` | Guest / Attacker | ตรวจสอบฟอร์ม Login, Empty Validation, และ Route Guard เตะกลับ |
+| [**02_Authentication_and_Security**](./02_Authentication_and_Security/README.md) | `02_auth_and_protected_routes.cy.ts`, `07_feedback_and_errors.cy.ts` | Guest / Buyer / Attacker | ตรวจสอบ Login/Auth Guards, Contextual Login, Popups (Success/Error/Warning/Destructive), 404 Page |
 | [**03_Cart_and_Inventory**](./03_Cart_and_Inventory/README.md) | `03_cart_and_checkout_flow.cy.ts` | Buyer (`buyer@mythix.com`) | ตรวจสอบสถานะตะกร้าว่าง, การแสดงสินค้า, และยอดรวมก่อนจอง |
 | [**04_Order_Fulfillment_Lifecycle**](./04_Order_Fulfillment_Lifecycle/README.md) | `04_order_fastforward_lifecycle.cy.ts` | Buyer + Seller | **API Fast-Forward** ไม่ต้องสลับ Account + **Local DB Teardown** |
 
@@ -71,6 +71,7 @@ docs/CI_CD/E2E/
 | :--- | :--- | :--- | :--- |
 | `npm run test:e2e:auth` | **Auth & Account Full Suite** | รันครบทั้ง 4 Flows ใน `cypress/e2e/auth/` (Login, Sign-Up, Reset Password, Profile) | ~30 - 45 วินาที |
 | `npm run test:e2e:auth:open` | **Auth Interactive GUI** | เปิดหน้าต่าง Cypress เฉพาะโฟลเดอร์ Auth & Account | ตามการคลิก |
+| `npm run test:e2e:feedback-errors` | **Feedback Popups & Errors (US-30)** | รัน 5 เคส Feedback Popups, Contextual Login, Error Handling และ 404 | ~9 - 10 วินาที |
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |

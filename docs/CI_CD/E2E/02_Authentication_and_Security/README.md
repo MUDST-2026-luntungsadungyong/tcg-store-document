@@ -17,12 +17,13 @@
 
 ## 📁 2. โครงสร้างไฟล์ชุดทดสอบในโฟลเดอร์ `cypress/e2e/auth/`
 
-```text
-cypress/e2e/auth/
-├── 01_login_and_security.cy.ts            # การล็อกอิน, Validation และการป้องกัน Route
-├── 02_registration_and_signup.cy.ts       # การสมัครสมาชิกใหม่ และกฎความปลอดภัยรหัสผ่าน
-├── 03_forgot_and_reset_password.cy.ts     # การกู้คืนรหัสผ่าน และหน้ารีเซ็ต
-└── 04_user_profile_and_contact.cy.ts      # การดูและแก้ไขข้อมูลส่วนตัว / ช่องทางติดต่อ
+cypress/e2e/
+├── auth/
+│   ├── 01_login_and_security.cy.ts            # การล็อกอิน, Validation และการป้องกัน Route
+│   ├── 02_registration_and_signup.cy.ts       # การสมัครสมาชิกใหม่ และกฎความปลอดภัยรหัสผ่าน
+│   ├── 03_forgot_and_reset_password.cy.ts     # การกู้คืนรหัสผ่าน และหน้ารีเซ็ต
+│   └── 04_user_profile_and_contact.cy.ts      # การดูและแก้ไขข้อมูลส่วนตัว / ช่องทางติดต่อ
+└── 07_feedback_and_errors.cy.ts               # US-30: Feedback Popups, Modals & Error Handling UX
 ```
 
 ---
@@ -68,6 +69,14 @@ cypress/e2e/auth/
 * **TC-E2E-PROF-03:** คลิกปุ่ม *"Edit contact"* ➔ นำทางไปหน้า `/profile/edit/contact` ➔ แสดงช่องกรอก Phone, Line ID, Facebook ➔ ปุ่ม *"Back to profile"* นำทางกลับมาหน้าหลักได้
 * **TC-E2E-PROF-04:** ป้องกัน Guest: หากไม่มี Session ล็อกอินแล้วพยายามเข้า `/profile` ระบบจะ Redirect ไปที่ `/login` ทันที
 
+### 🔹 Flow 2.5: Feedback Popups, Error Handling & 404 UX (`07_feedback_and_errors.cy.ts`)
+> ดูคู่มือฉบับเต็มได้ที่: [**คู่มือการทดสอบ Feedback Popups & Error Handling (`feedback_and_errors_e2e_guide.md`)**](./feedback_and_errors_e2e_guide.md)
+* **Case 7: 404 Not Found Page:** ตรวจสอบการเข้าถึง Route ไม่มีอยู่จริง (`/invalid-route-12345`), แสดงผลรหัส 404 และปุ่ม Back to homepage
+* **Case 5 & 1: Contextual Login & Success Popup:** Guest กดสะสมการ์ด ➔ แสดง Contextual Login Modal; เข้าสู่ระบบ Buyer ➔ แสดง Success Popup "Added to your collection"
+* **Case 8: Save Error Popup:** จำลอง `DEV_SIMULATE_API_ERROR` ใน Collection ➔ แสดง Error Popup "We couldn't add this card (500 Internal Server Error)"
+* **Case 2: Destructive Modal on Remove:** คลิกไอคอนถังขยะบนการ์ดใน Collection ➔ แสดง Destructive Modal "Remove this card?" พร้อมปุ่ม Remove card และ Cancel
+* **Case 3: Warning Popup on Stock Change:** จำลอง `DEV_SIMULATE_STOCK_ERROR` ในตะกร้าสินค้า ➔ กดเพิ่มจำนวนการ์ด (+) ➔ แสดง Warning Popup "This card is no longer available"
+
 ---
 
 ## ⚡ 4. Custom Commands พิเศษสำหรับ Auth & Account
@@ -91,7 +100,11 @@ cypress/e2e/auth/
 ### 🤖 1. รันอัตโนมัติผ่าน Command Line (Headless Mode):
 ```bash
 cd Code_devops/tcg-store-frontend
+# รัน Auth & Account Suite
 npm run test:e2e:auth
+
+# รัน Feedback Popups & Error Handling UX Suite (US-30)
+npm run test:e2e:feedback-errors
 ```
 
 ### 🎯 2. รันแบบ Interactive GUI (สำหรับดูหน้าจอคลิกสดๆ):
