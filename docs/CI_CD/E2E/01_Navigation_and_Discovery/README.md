@@ -52,7 +52,6 @@
 
 ---
 
-## 🔮 4. แผนการต่อขยายในอนาคต (Future Expansion)
-* [ ] การทดสอบ Filter ตามประเภทการ์ด (Pokémon, Magic, Yu-Gi-Oh!)
-* [ ] การทดสอบการเรียงลำดับราคา (Sort: Low to High / High to Low)
-* [ ] การทดสอบเปิดดูโมเดลการ์ดแบบ 3 มิติ (3D Card Viewer Component)
+## 📚 4. เอกสารคู่มือทดสอบเฉพาะโมดูล (Detailed Module Guides)
+- 🔍 [คู่มือ E2E US-02-2 & US-02-3: Multi-Seller Listing Comparison & Recommendations Flow](./card_detail_multi_seller_and_recommendations_e2e_guide.md)
+- 🏆 [คู่มือ E2E US-10: Personal Collection Album & Collector Leaderboard](./collection_and_leaderboard_e2e_guide.md)
