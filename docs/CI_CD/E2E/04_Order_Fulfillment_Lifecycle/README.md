@@ -107,9 +107,13 @@ sequenceDiagram
 | **Buyer Order List** | `GET /api/orders/me` | ดึงรายการคำสั่งซื้อของผู้ซื้อ |
 | **Teardown Task** | `docker exec tcg_postgres psql ...` | ล้างข้อมูลในตาราง `orders` และ `order_items` |
 
+## 📚 5. เอกสารคู่มือการทดสอบที่เกี่ยวข้อง (Related Guides)
+
+* [📦 คู่มือการทดสอบ Buyer Order History, Direct Buy & Filtering (US-04-2 & US-09)](file:///c:/Devops/tcg-store-document/docs/CI_CD/E2E/04_Order_Fulfillment_Lifecycle/buyer_order_history_and_direct_buy_e2e_guide.md)
+
 ---
 
-## 🔮 5. แผนการต่อขยายในอนาคต (Future Expansion)
+## 🔮 6. แผนการต่อขยายในอนาคต (Future Expansion)
 * [ ] Sprint 4: เพิ่มการกรอก **Tracking Number (เลขพัสดุ)** ตอนผู้ขายกดยืนยันการจัดส่ง
 * [ ] Sprint 4: การส่ง Notification / Email ผ่าน **Mailpit** แจ้งเตือนผู้ซื้อเมื่อสถานะเปลี่ยน
 * [ ] การทดสอบ Flow การยกเลิกคำสั่งซื้อ (Cancel Order Journey) ทั้งฝั่งผู้ซื้อและผู้ขาย
