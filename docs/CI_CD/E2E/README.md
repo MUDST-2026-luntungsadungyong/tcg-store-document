@@ -2,7 +2,7 @@
 
 > **โปรเจกต์:** Mythix TCG Marketplace Platform  
 > **หมวดหมู่:** `CI_CD / E2E`  
-> **เครื่องมือหลัก:** Cypress v16.1.0  
+> **เครื่องมือหลัก:** Cypress v16.1.1  
 > **สถานะ:** 🟢 พร้อมใช้งานและรองรับการขยายผล (Scalable Architecture)
 
 ---
@@ -30,7 +30,7 @@ docs/CI_CD/E2E/
 │   └── README.md                                # รายละเอียด: สั่งซื้อ ➔ ส่งของ (API Fast-Forward) ➔ Teardown
 │
 ├── 05_Admin_Platform/                           # 🛡️ Journey 5
-│   └── README.md                                # รายละเอียด: ระบบแอดมิน, คิวตรวจร้านค้า, Role Guard
+│   └── README.md                                # รายละเอียด: แดชบอร์ด, คิวตรวจร้านค้า, ตรวจสอบออเดอร์ทั่วทั้งระบบ (US-12-5)
 │
 └── 06_Notification_System/                      # 🔔 Journey 6
     └── README.md                                # รายละเอียด: กระดิ่งแจ้งเตือน, Unread Badge, Deep-Link, Read/Delete
@@ -46,7 +46,7 @@ docs/CI_CD/E2E/
 | **Auth & Security** | `cypress/e2e/auth/02_registration_and_signup.cy.ts` | Guest | 5 tests - Registration form, Validation, Email check |
 | **Auth & Security** | `cypress/e2e/auth/03_forgot_and_reset_password.cy.ts` | Guest | 5 tests - Password recovery flow & token verification |
 | **Auth & Security** | `cypress/e2e/auth/04_user_profile_and_contact.cy.ts` | Buyer | 4 tests - User profile, Contact channels & Shipping Address |
-| **Admin Platform** | `cypress/e2e/admin/01_admin_access_and_authorization.cy.ts` | Admin / Unauthorized | 4 tests - Admin RBAC Guard, Unauthorized redirect |
+| [**Admin Platform**](./05_Admin_Platform/README.md) | `cypress/e2e/admin/01_admin_access_and_authorization.cy.ts` | Admin / Unauthorized | 4 tests - Admin RBAC Guard, Unauthorized redirect |
 | **Admin Platform** | `cypress/e2e/admin/02_admin_dashboard.cy.ts` | Admin | 4 tests - Overview KPIs, Metrics cards, Charts |
 | **Admin Platform** | `cypress/e2e/admin/03_seller_application_queue.cy.ts` | Admin | 6 tests - Seller verification queue, Approve/Reject KYC |
 | **Admin Platform** | `cypress/e2e/admin/04_seller_update_product.cy.ts` | Admin | 3 tests - Product moderation, Price & condition checks |
@@ -72,7 +72,7 @@ docs/CI_CD/E2E/
 
 | Custom Command | บทบาทการทำงาน | Journeys ที่อ้างอิงใช้งาน |
 | :--- | :--- | :--- |
-| **`cy.loginByMock(role)`** | สร้าง Session ล็อกอินจำลองผ่าน Local Storage | **Journey 3** (Cart), **Journey 4** (Order Flow) |
+| **`cy.loginByMock(role)`** | สร้าง Session ล็อกอินจำลองผ่าน Local Storage | **Journey 3** (Cart), **Journey 4** (Order Flow), **Journey 5** (Admin) |
 | **`cy.loginByUI(email, pwd)`** | กรอกฟอร์มเข้าสู่ระบบจริงบนหน้าเว็บและกด Submit | **Journey 2** (Flow 2.1 Login) |
 | **`cy.registerNewUser(name, email, pwd)`** | กรอกฟอร์มสมัครสมาชิกใหม่ครบ 4 ช่องที่ `/register` | **Journey 2** (Flow 2.2 Sign-Up) |
 | **`cy.requestPasswordReset(email)`** | กรอกอีเมลที่หน้า `/forgot-password` ขอรีเซ็ตรหัส | **Journey 2** (Flow 2.3 Reset Password) |
@@ -92,9 +92,11 @@ docs/CI_CD/E2E/
 
 | คำสั่ง | รูปแบบการทดสอบ (Tier) | สิ่งที่ถูกรัน | ระยะเวลาโดยประมาณ |
 | :--- | :--- | :--- | :--- |
+| `npm run test:e2e:admin` | **Admin Platform Full Suite** | รันครบทั้ง 7 Specs ใน `cypress/e2e/admin/` (33 Scenarios) | ~50 - 60 วินาที |
+| `npm run test:e2e:admin-orders` | **Admin Order Logs Spec (US-12-5)** | รันเฉพาะ E2E ของ Order Logs Monitoring (`07_admin_orders_monitoring.cy.ts`) ทั้ง 12 Scenarios | ~15 - 20 วินาที |
 | `npm run test:e2e:auth` | **Auth & Account Full Suite** | รันครบทั้ง 4 Flows ใน `cypress/e2e/auth/` (Login, Sign-Up, Reset Password, Profile) | ~30 - 45 วินาที |
 | `npm run test:e2e:auth:open` | **Auth Interactive GUI** | เปิดหน้าต่าง Cypress เฉพาะโฟลเดอร์ Auth & Account | ตามการคลิก |
-| `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
+| `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 05) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
 | `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ครบทุก Flow | ~15 - 30 วินาที |
