@@ -40,14 +40,29 @@ docs/CI_CD/E2E/
 
 ## 📊 ตารางสรุปภาพรวมชุดทดสอบ (Test Suites Overview)
 
-| โฟลเดอร์เอกสาร | ไฟล์โค้ด Cypress (`.cy.ts`) | บทบาทผู้ใช้ (Actor) | จุดเด่นสำคัญ (Key Highlights) |
+| กลุ่มชุดทดสอบ | ไฟล์โค้ด Cypress (`.cy.ts`) | บทบาทผู้ใช้ (Actor) | จำนวนเทส & ไฮไลท์สำคัญ |
 | :--- | :--- | :--- | :--- |
-| [**01_Navigation_and_Discovery**](./01_Navigation_and_Discovery/README.md) | `01_navigation_and_discovery.cy.ts` | Guest | ตรวจสอบ Landing Page, เมนูหลัก, และ Search Bar Interaction |
-| [**02_Authentication_and_Security**](./02_Authentication_and_Security/README.md) | `02_auth_and_protected_routes.cy.ts` | Guest / Attacker | ตรวจสอบฟอร์ม Login, Empty Validation, และ Route Guard เตะกลับ |
-| [**03_Cart_and_Inventory**](./03_Cart_and_Inventory/README.md) | `03_cart_and_checkout_flow.cy.ts` | Buyer (`buyer@mythix.com`) | ตรวจสอบสถานะตะกร้าว่าง, การแสดงสินค้า, และยอดรวมก่อนจอง |
-| [**04_Order_Fulfillment_Lifecycle**](./04_Order_Fulfillment_Lifecycle/README.md) | `04_order_fastforward_lifecycle.cy.ts` | Buyer + Seller | **API Fast-Forward** ไม่ต้องสลับ Account + **Local DB Teardown** |
-| [**05_Admin_Platform**](./05_Admin_Platform/README.md) | `admin/*.cy.ts` (7 specs, 33 tests) | Platform Admin | **Order Logs Monitoring (US-12-5)**, แดชบอร์ด, คิวอนุมัติร้านค้า, ผู้ใช้แอดมิน, Audit Trail |
-| [**06_Notification_System**](./06_Notification_System/README.md) | `05_notifications_inbox.cy.ts` | All Roles (Buyer, Seller, Admin) | **Bell Badge & Counter**, **Deep-Link Actions**, **Read/Delete Lifecycle** |
+| **Auth & Security** | `cypress/e2e/auth/01_login_and_security.cy.ts` | Guest / Buyer | 6 tests - Login, Validations, Role Route Protection |
+| **Auth & Security** | `cypress/e2e/auth/02_registration_and_signup.cy.ts` | Guest | 5 tests - Registration form, Validation, Email check |
+| **Auth & Security** | `cypress/e2e/auth/03_forgot_and_reset_password.cy.ts` | Guest | 5 tests - Password recovery flow & token verification |
+| **Auth & Security** | `cypress/e2e/auth/04_user_profile_and_contact.cy.ts` | Buyer | 4 tests - User profile, Contact channels & Shipping Address |
+| [**Admin Platform**](./05_Admin_Platform/README.md) | `cypress/e2e/admin/01_admin_access_and_authorization.cy.ts` | Admin / Unauthorized | 4 tests - Admin RBAC Guard, Unauthorized redirect |
+| **Admin Platform** | `cypress/e2e/admin/02_admin_dashboard.cy.ts` | Admin | 4 tests - Overview KPIs, Metrics cards, Charts |
+| **Admin Platform** | `cypress/e2e/admin/03_seller_application_queue.cy.ts` | Admin | 6 tests - Seller verification queue, Approve/Reject KYC |
+| **Admin Platform** | `cypress/e2e/admin/04_seller_update_product.cy.ts` | Admin | 3 tests - Product moderation, Price & condition checks |
+| **Admin Platform** | `cypress/e2e/admin/05_admin_users_management.cy.ts` | Admin | 3 tests - User management, Search, Role updates |
+| **Admin Platform** | `cypress/e2e/admin/06_admin_audit_logs.cy.ts` | Admin | 1 test - System-wide audit log monitoring & filters |
+| **Navigation & Discovery** | `cypress/e2e/01_navigation_and_discovery.cy.ts` | Guest / Buyer | 6 tests - Landing page, Search bar, Filters, Categories |
+| **Cart & Checkout** | `cypress/e2e/03_cart_and_checkout_flow.cy.ts` | Buyer | 3 tests - Cart items, Quantity, Price calculation, Checkout |
+| **Order Lifecycle** | `cypress/e2e/04_order_fastforward_lifecycle.cy.ts` | Buyer + Seller | 3 tests - Fast-Forward API status lifecycle & DB teardown |
+| [**Notifications**](./06_Notification_System/README.md) | `cypress/e2e/05_notifications_inbox.cy.ts` | Buyer / Guest | 14 tests - Inbox badges, Filters, Read/Unread, Guest redirect |
+| **Seller Onboarding** | `cypress/e2e/05_seller_onboarding_journey.cy.ts` | Buyer / New Seller | 4 tests - Seller application form, Doc upload, Status |
+| **Public Store** | `cypress/e2e/06_public_store_browsing.cy.ts` | Guest / Buyer | 3 tests - Seller storefront, Inventory browsing, Contact |
+| **Feedback & Errors** | `cypress/e2e/07_feedback_and_errors.cy.ts` | Guest / Buyer | 5 tests - Toast notifications, Modals, 404, Stock errors |
+| **Buyer Orders** | `cypress/e2e/08_buyer_order_history_and_direct_buy.cy.ts` | Buyer | 2 tests - Order history tab, Detail view, Buy Now flow |
+| **Seller Inventory** | `cypress/e2e/09_seller_inventory_management.cy.ts` | Seller | 3 tests - Create listing, Edit price/stock, Toggle active |
+| **Collection & Leaderboard**| `cypress/e2e/10_collection_and_leaderboard.cy.ts` | Buyer / Collector | 2 tests - Card collection tracking, Leaderboard rank |
+| **รวมทั้งหมด** | **20 Specs** | **All Roles** | **86 / 86 ผ่าน 100% (Green)** |
 
 ---
 
@@ -84,6 +99,7 @@ docs/CI_CD/E2E/
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 05) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
+| `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ครบทุก Flow | ~15 - 30 วินาที |
 | `npm run test:e2e:notifications` | **Notification System Suite** | รันเฉพาะ E2E ของ Notification ทั้ง 14 Scenarios (US-11-1 ถึง US-11-2) | ~20 - 30 วินาที |
 | `npm run test:e2e:open` | **Interactive GUI (All)** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
 
@@ -91,12 +107,24 @@ docs/CI_CD/E2E/
 
 ### 🔍 ตัวอย่างการสั่งรันเฉพาะไฟล์หรือส่ง Parameter ผ่าน CLI:
 ```bash
-# 1. รันเฉพาะ Admin Order Logs Monitoring (US-12-5)
-npx cypress run --spec "cypress/e2e/admin/07_admin_orders_monitoring.cy.ts"
+# 1. รันเฉพาะ Notification System E2E
+npx cypress run --spec "cypress/e2e/05_notifications_inbox.cy.ts"
 
-# 2. รันชุด Admin Platform ทั้งหมด
-npx cypress run --spec "cypress/e2e/admin/**/*.cy.ts"
-
-# 3. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
+# 2. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
 npx cypress run --spec "cypress/e2e/04_order_fastforward_lifecycle.cy.ts"
+
+# 3. รันเฉพาะ Journey 1 และ 3
+npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
 ```
+
+---
+
+## 🔮 แผนการเพิ่ม Use Case ใน Sprint ถัดไป (Roadmap)
+
+1. **Sprint 4 — Notification & Tracking Number:**
+   * ผู้ขายกรอกเลขพัสดุ (Tracking Number) พร้อมลิงก์ขนส่ง (Flash / Kerry / ไปรษณีย์ไทย)
+   * ผู้ซื้อได้รับ Email แจ้งเตือนสถานะผ่าน Mailpit
+2. **Sprint 4 — Seller Tier & Commission Fee:**
+   * ตรวจสอบการหักค่าธรรมเนียมแพลตฟอร์ม 10% เมื่อผู้ขายแต่ละระดับ Tier ทำการขายสำเร็จ
+3. **Card Condition & Grading:**
+   * การเลือกการ์ดตามสภาพ (Mint / Near Mint / Played) และการ์ดแท้ที่ผ่านการเกรด (PSA / BGS)
