@@ -110,6 +110,11 @@ sequenceDiagram
 ---
 
 ## 🔮 5. แผนการต่อขยายในอนาคต (Future Expansion)
+* [x] **Seller Order Management & Profit Dashboard (US-07-1 & US-07-2):**
+  * ดูรายละเอียดในคู่มือเฉพาะทาง: [**Seller Order Management E2E Guide (`seller_order_management_e2e_guide.md`)**](./seller_order_management_e2e_guide.md)
+  * Spec File: [`tcg-store-frontend/cypress/e2e/11_seller_order_management.cy.ts`](file:///c:/Devops/tcg-store-frontend/cypress/e2e/11_seller_order_management.cy.ts)
+  * NPM Script: `npm run test:e2e:seller-orders`
 * [ ] Sprint 4: เพิ่มการกรอก **Tracking Number (เลขพัสดุ)** ตอนผู้ขายกดยืนยันการจัดส่ง
 * [ ] Sprint 4: การส่ง Notification / Email ผ่าน **Mailpit** แจ้งเตือนผู้ซื้อเมื่อสถานะเปลี่ยน
 * [ ] การทดสอบ Flow การยกเลิกคำสั่งซื้อ (Cancel Order Journey) ทั้งฝั่งผู้ซื้อและผู้ขาย
+

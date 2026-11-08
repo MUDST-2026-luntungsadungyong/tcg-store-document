@@ -99,6 +99,7 @@ docs/CI_CD/E2E/
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 05) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
+| `npm run test:e2e:seller-orders` | **Seller Order Management Suite** | รันเฉพาะ E2E ของระบบจัดการคำสั่งซื้อผู้ขาย (US-07-1, US-07-2, US-06-1) | ~15 - 25 วินาที |
 | `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ครบทุก Flow | ~15 - 30 วินาที |
 | `npm run test:e2e:notifications` | **Notification System Suite** | รันเฉพาะ E2E ของ Notification ทั้ง 14 Scenarios (US-11-1 ถึง US-11-2) | ~20 - 30 วินาที |
 | `npm run test:e2e:open` | **Interactive GUI (All)** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
@@ -128,3 +129,4 @@ npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
    * ตรวจสอบการหักค่าธรรมเนียมแพลตฟอร์ม 10% เมื่อผู้ขายแต่ละระดับ Tier ทำการขายสำเร็จ
 3. **Card Condition & Grading:**
    * การเลือกการ์ดตามสภาพ (Mint / Near Mint / Played) และการ์ดแท้ที่ผ่านการเกรด (PSA / BGS)
+
