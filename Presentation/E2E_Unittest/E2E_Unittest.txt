@@ -1,0 +1,1 @@
+"Unit Test ของระบบเราเป็นไปตามหลัก ISP ในระดับ Business Logic และ Data Layer สูงถึง 90%+ ครอบคลุมทั้ง Equivalence Partitioning, Boundary Values และ Exception Handling ส่วนระดับ UI Component จะเลือกใช้ Base Choice ที่จำเป็นเพื่อไม่ให้เกิดการทดสอบซ้ำซ้อน (Test Redundancy) กับชุด Cypress E2E" ครับ
