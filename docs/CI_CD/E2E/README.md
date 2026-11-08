@@ -26,8 +26,14 @@ docs/CI_CD/E2E/
 ├── 03_Cart_and_Inventory/                       # 🛒 Journey 3
 │   └── README.md                                # รายละเอียด: ตะกร้าสินค้า, สต็อกการ์ด, คำนวณราคา
 │
-└── 04_Order_Fulfillment_Lifecycle/              # 📦 Journey 4
-    └── README.md                                # รายละเอียด: สั่งซื้อ ➔ ส่งของ (API Fast-Forward) ➔ Teardown
+├── 04_Order_Fulfillment_Lifecycle/              # 📦 Journey 4
+│   └── README.md                                # รายละเอียด: สั่งซื้อ ➔ ส่งของ (API Fast-Forward) ➔ Teardown
+│
+├── 05_Admin_Platform/                           # 🛡️ Journey 5
+│   └── README.md                                # รายละเอียด: ระบบแอดมิน, คิวตรวจร้านค้า, Role Guard
+│
+└── 06_Notification_System/                      # 🔔 Journey 6
+    └── README.md                                # รายละเอียด: กระดิ่งแจ้งเตือน, Unread Badge, Deep-Link, Read/Delete
 ```
 
 ---
@@ -49,7 +55,7 @@ docs/CI_CD/E2E/
 | **Navigation & Discovery** | `cypress/e2e/01_navigation_and_discovery.cy.ts` | Guest / Buyer | 6 tests - Landing page, Search bar, Filters, Categories |
 | **Cart & Checkout** | `cypress/e2e/03_cart_and_checkout_flow.cy.ts` | Buyer | 3 tests - Cart items, Quantity, Price calculation, Checkout |
 | **Order Lifecycle** | `cypress/e2e/04_order_fastforward_lifecycle.cy.ts` | Buyer + Seller | 3 tests - Fast-Forward API status lifecycle & DB teardown |
-| **Notifications** | `cypress/e2e/05_notifications_inbox.cy.ts` | Buyer / Guest | 14 tests - Inbox badges, Filters, Read/Unread, Guest redirect |
+| [**Notifications**](./06_Notification_System/README.md) | `cypress/e2e/05_notifications_inbox.cy.ts` | Buyer / Guest | 14 tests - Inbox badges, Filters, Read/Unread, Guest redirect |
 | **Seller Onboarding** | `cypress/e2e/05_seller_onboarding_journey.cy.ts` | Buyer / New Seller | 4 tests - Seller application form, Doc upload, Status |
 | **Public Store** | `cypress/e2e/06_public_store_browsing.cy.ts` | Guest / Buyer | 3 tests - Seller storefront, Inventory browsing, Contact |
 | **Feedback & Errors** | `cypress/e2e/07_feedback_and_errors.cy.ts` | Guest / Buyer | 5 tests - Toast notifications, Modals, 404, Stock errors |
@@ -91,16 +97,21 @@ docs/CI_CD/E2E/
 | `npm run test:e2e:full` หรือ `npm run test:e2e` | **Full Test** | รันครบทุก Journey (01 ถึง 04) | ~1.5 - 2 นาที |
 | `npm run test:e2e:half` หรือ `npm run test:e2e:smoke` | **Half / Smoke Test** | รันเฉพาะแกนหลัก (01 Navigation + 02 Auth) | ~20 - 30 วินาที |
 | `npm run test:e2e:order` | **Order & Custom Command Flow** | รันเฉพาะ Journey 04 ทดสอบ `sellerFastForwardOrder` และ `cleanTestOrder` | ~15 - 25 วินาที |
+| `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ครบทุก Flow | ~15 - 30 วินาที |
+| `npm run test:e2e:notifications` | **Notification System Suite** | รันเฉพาะ E2E ของ Notification ทั้ง 14 Scenarios (US-11-1 ถึง US-11-2) | ~20 - 30 วินาที |
 | `npm run test:e2e:open` | **Interactive GUI (All)** | เปิดหน้าต่าง Cypress ให้คลิกเลือกเทสทีละเคสสดๆ (สำหรับเดโมส่งงาน) | ตามการคลิก |
 
 ---
 
 ### 🔍 ตัวอย่างการสั่งรันเฉพาะไฟล์หรือส่ง Parameter ผ่าน CLI:
 ```bash
-# 1. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
+# 1. รันเฉพาะ Notification System E2E
+npx cypress run --spec "cypress/e2e/05_notifications_inbox.cy.ts"
+
+# 2. รันเฉพาะ Journey 4 (คำสั่ง Fast-Forward & Teardown)
 npx cypress run --spec "cypress/e2e/04_order_fastforward_lifecycle.cy.ts"
 
-# 2. รันเฉพาะ Journey 1 และ 3
+# 3. รันเฉพาะ Journey 1 และ 3
 npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
 ```
 
@@ -115,5 +126,3 @@ npx cypress run --spec "cypress/e2e/01_*,cypress/e2e/03_*"
    * ตรวจสอบการหักค่าธรรมเนียมแพลตฟอร์ม 10% เมื่อผู้ขายแต่ละระดับ Tier ทำการขายสำเร็จ
 3. **Card Condition & Grading:**
    * การเลือกการ์ดตามสภาพ (Mint / Near Mint / Played) และการ์ดแท้ที่ผ่านการเกรด (PSA / BGS)
-
-| `npm run test:e2e:admin` | **Admin Platform Suite** | รันเฉพาะ E2E ของ Admin Platform ทั้ง 3 Flow (US-11-1 ถึง US-11-3) | ~15 - 30 วินาที |
