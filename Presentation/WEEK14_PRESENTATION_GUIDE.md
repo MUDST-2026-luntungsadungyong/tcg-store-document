@@ -1,7 +1,14 @@
 # 🎯 แผนเตรียมพรีเซนต์โปรเจกต์ TCG Store (สัปดาห์ที่ 14 พฤศจิกายน)
 **ระบบ Mythix TCG Store DevOps Platform & Microservices**
 
-![Week 14 Presentation Requirements](./images/week14_presentation_requirements.png)
+> ### 📋 ข้อกำหนดการนำเสนอ (วีค 14 พฤศจิกายน)
+> 1. Project ทำอะไร โชว์โปรเจค
+> 2. Show Project Repo check commit ว่าใครทำอะไร
+> 3. Github runner ทำอะไรได้บ้าง
+> 4. k8s deployment file + deployment via CICD
+> 5. Observability, log, trace, metric ใน grafana  
+> **(ข้อ 1-5 ให้เวลารวม 10 นาทีเท่านั้น)**  
+> 6. ช่วงเวลาตอบคำถาม (Q&A)
 
 > **⏱️ กฎเวลา:** ข้อ 1 - 5 มีเวลาให้ **รวมกันเพียง 10 นาทีเท่านั้น!** (เฉลี่ยหัวข้อละ ~2 นาที)  
 > **⚠️ ข้อควรระวังสำคัญ:**
