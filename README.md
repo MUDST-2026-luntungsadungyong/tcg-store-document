@@ -5,6 +5,7 @@ Repository for storing related documents and links
 
 - [Current project status](./PROJECT_CURRENT_STATUS.md) — read before planning, implementing, or reporting delivery status.
 - [AI working rules](./AI_WORKING_RULES.md) — evidence and handoff rules for AI-assisted work.
+- [🎤 Presentation & Delivery Documentation Portal](./Presentation/README.md) — เอกสารการนำเสนอระบบ, สไลด์, และ [คู่มือเตรียมพรีเซนต์สัปดาห์ที่ 14 (10 นาที)](./Presentation/WEEK14_PRESENTATION_GUIDE.md)
 
 ---
 
